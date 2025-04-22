@@ -7,29 +7,60 @@ import java.util.*;
 
 class BioButton implements ActionListener {
     private JFrame frame;
-    private JTextField textField;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
+    private JTextField ageField;
+    private JTextField weightField;
+    private JTextField heightField;
+    private JTextField sexField;
 
-    public BioButton (JFrame frame, JTextField textField, JTextField textField2,
-                      JTextField textField3, JTextField textField4){
+    public BioButton (JFrame frame, JTextField ageField, JTextField weightField,
+                      JTextField heightField, JTextField sexField) {
         this.frame = frame;
-        this.textField = textField;
-        this.textField2 = textField2;
-        this.textField3 = textField3;
-        this.textField4 = textField4;
+        this.ageField = ageField;
+        this.weightField = weightField;
+        this.heightField = heightField;
+        this.sexField = sexField;
     }
 
+    private void clearFrame() {
+        frame.getContentPane().removeAll();
+        frame.repaint();
+    }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int dailyCal;
-        FoodInfo info = new FoodInfo(textField.getText(), textField2.getText(),
-                textField3.getText(),
-                textField4.getText());
-        dailyCal = info.getRecommendedCalories();
+
+        int age = Integer.parseInt(ageField.getText());
+        int weight = Integer.parseInt(weightField.getText());
+        int height = Integer.parseInt(heightField.getText());
+        String sex = sexField.getText();
+
+        FoodInfo info = new FoodInfo(age, weight, height, sex);
+        int dailyCal = info.getRecommendedCalories();
+
+        clearFrame();
+
+        JLabel prompt = new JLabel("Do you want a calorie surplus or deficit?");
+        JButton surplusButton = new JButton("Surplus");
+        JButton deficitButton = new JButton("Deficit");
+
+        surplusButton.addActionListener(r -> {
+            boolean surplus = true;
+            foodEntry(surplus);
+        });
+
+        deficitButton.addActionListener(r -> {
+            boolean surplus = false;
+            foodEntry(surplus);
+        });
+
+        frame.add(prompt);
+        frame.add(surplusButton);
+        frame.add(deficitButton);
+        frame.revalidate();
+        frame.repaint();
+    }
+    private void foodEntry(boolean surplus) {
     }
 }
 
@@ -82,7 +113,5 @@ public class Main {
 
 
     }
-    public void clear (JFrame frame){
-        frame.getContentPane().removeAll();
-    }
+
 }
