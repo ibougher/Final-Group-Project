@@ -40,7 +40,7 @@ public class FoodInfo {
     public int getTotalCalories(ArrayList<String> items){
         int total = 0;
 
-        for (int i =0; i < items.size(); i += 5){
+        for (int i = 0; i + 3 < items.size(); i += 4){
             int carbs = Integer.parseInt(items.get(i + 1));
             int protein = Integer.parseInt(items.get(i + 2));
             int fat = Integer.parseInt(items.get(i + 3));

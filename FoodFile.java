@@ -7,19 +7,12 @@ public class FoodFile {
     public FoodFile() {}
 
     //Writing to the file
-    public void writeFoodItem(String name, int carbs, int protein, int fat) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("foodLog.txt"))) {
-            writer.write(name);
-            writer.newLine();
-
-            writer.write(carbs);
-            writer.newLine();
-
-            writer.write(protein);
-            writer.newLine();
-
-            writer.write(fat);
-            writer.newLine();
+    public void writeFoodItem(String name, String carbs, String protein, String fat) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("foodLog.txt", true))) {
+            writer.write(name); writer.newLine();
+            writer.write(carbs); writer.newLine();
+            writer.write(protein); writer.newLine();
+            writer.write(fat); writer.newLine();
 
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());

@@ -67,7 +67,7 @@ class BioButton implements ActionListener {
         int fat;
         clearFrame();
 
-        JLabel prompt = new JLabel("Please enter the names and macros (in grams)"+ "\n\" " +
+        JLabel prompt = new JLabel("Please enter the names and macros (in grams)" + "\n "+
                 "of the food items you have eaten today" );
         JLabel nameLabel = new JLabel("Name:");
         JTextField nameField = new JTextField();
@@ -89,10 +89,14 @@ class BioButton implements ActionListener {
         addButton.addActionListener(e -> {
             file.writeFoodItem(
                     nameField.getText(),
-                    Integer.parseInt(carbField.getText()),
-                            Integer.parseInt(proteinField.getText()),
-                                    Integer.parseInt(fatField.getText())
+                    carbField.getText(),
+                    proteinField.getText(),
+                    fatField.getText()
              );
+            nameField.setText("");
+            carbField.setText("");
+            proteinField.setText("");
+            fatField.setText("");
             }
         );
 
@@ -129,24 +133,48 @@ class BioButton implements ActionListener {
         int totalCal = info.getTotalCalories(list);
 
         JLabel calLabel = new JLabel("Your estimated daily caloric intake is: " + dailyCal);
-
+        JLabel totalCalLabel = new JLabel("You ate " + totalCal + " total calories");
+        JLabel goalLabel = new JLabel();
+        JLabel listText = new JLabel("Here is a list of everything you ate for the day: ");
 
         if (surplus){
             if (totalCal > dailyCal){
-                JLabel goalLabel = new JLabel("Congratulations! You hit your calorie surplus!");
+                goalLabel.setText("Congratulations! You hit your calorie surplus!");
             }
             else {
-                JLabel goalLabel = new JLabel("Unfortunately, you failed to meet your calorie surplus.");
+                goalLabel.setText("Unfortunately, you failed to meet your calorie surplus.");
             }
         }
         else {
             if (totalCal < dailyCal){
-                JLabel goalLabel = new JLabel("Congratulations! You hit your calorie deficit!");
+                goalLabel.setText("Congratulations! You hit your calorie deficit!");
             }
             else {
-                JLabel goalLabel = new JLabel("Unfortunately, you failed to meet your calorie deficit.");
+                goalLabel.setText("Unfortunately, you failed to meet your calorie deficit.");
             }
         }
+
+        JLabel listView = new JLabel();
+
+        StringBuilder labelText = new StringBuilder("<html>");
+        for (int i = 0; i + 3 < list.size(); i += 4) {
+            labelText.append(list.get(i))
+                    .append(", ")
+                    .append(list.get(i + 1)).append("g of carbs, ")
+                    .append(list.get(i + 2)).append("g of protein, ")
+                    .append(list.get(i + 3)).append("g of fat.<br>");
+        }
+        labelText.append("</html>");
+        listView.setText(labelText.toString());
+
+        frame.add(calLabel);
+        frame.add(totalCalLabel);
+        frame.add(goalLabel);
+        frame.add(listText);
+        frame.add(listView);
+        frame.revalidate();
+        frame.repaint();
+
     }
 }
 
