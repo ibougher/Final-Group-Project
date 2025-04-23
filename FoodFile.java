@@ -9,25 +9,29 @@ public class FoodFile {
 
     //Writing to the file
     public void writeFoodItem(String name, int carbs, int protein, int fat) {
-        String line = name + " - Carbs: " + carbs + "g, Protein: " + protein + "g, Fat: " + fat + "g";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(line);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("foodLog.txt"))) {
+            writer.write(name);
             writer.newLine();
+
+            writer.write(carbs);
+            writer.newLine();
+
+            writer.write(protein);
+            writer.newLine();
+
+            writer.write(fat);
+            writer.newLine();
+
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
     }
     //Reading from the file
-    public List<String> readFoodItems() {
+    public List<String> readFoodItems() throws FileNotFoundException {
         List<String> items = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                items.add(line);
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading from file: " + e.getMessage());
+        Scanner fileIn = new Scanner(new File("foodLog.txt"));
+        while (fileIn.hasNext()){
+            items.add(fileIn.next());
         }
 
         return items;
