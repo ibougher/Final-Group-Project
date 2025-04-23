@@ -5,9 +5,7 @@ public class FoodFile {
     private String filePath;
 
     //Constructs a FoodFile tied to a specific file path
-    public FoodFile(String filePath) {
-        this.filePath = filePath;
-    }
+    public FoodFile() {}
 
     //Writing to the file
     public void writeFoodItem(String name, int carbs, int protein, int fat) {

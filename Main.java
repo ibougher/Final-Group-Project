@@ -2,8 +2,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import javax.swing.*;
-import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 class BioButton implements ActionListener {
     private JFrame frame;
@@ -21,7 +21,7 @@ class BioButton implements ActionListener {
         this.sexField = sexField;
     }
 
-    private void clearFrame() {
+    public void clearFrame() {
         frame.getContentPane().removeAll();
         frame.repaint();
     }
@@ -46,12 +46,12 @@ class BioButton implements ActionListener {
 
         surplusButton.addActionListener(r -> {
             boolean surplus = true;
-            foodEntry(surplus);
+            foodEntry(surplus, dailyCal);
         });
 
         deficitButton.addActionListener(r -> {
             boolean surplus = false;
-            foodEntry(surplus);
+            foodEntry(surplus, dailyCal);
         });
 
         frame.add(prompt);
@@ -60,7 +60,89 @@ class BioButton implements ActionListener {
         frame.revalidate();
         frame.repaint();
     }
-    private void foodEntry(boolean surplus) {
+    public void foodEntry(boolean surplus, int dailyCal) {
+        String name;
+        int carbs;
+        int protein;
+        int fat;
+        clearFrame();
+
+        JLabel prompt = new JLabel("Please enter the names and macros (in grams)"+ "\n\" " +
+                "of the food items you have eaten today" );
+        JLabel nameLabel = new JLabel("Name:");
+        JTextField nameField = new JTextField();
+
+        JLabel carbsLabel = new JLabel("Carbs:");
+        JTextField carbField = new JTextField();
+
+        JLabel proteinLabel = new JLabel("Protein:");
+        JTextField proteinField = new JTextField();
+
+        JLabel fatLabel = new JLabel("Fat:");
+        JTextField fatField = new JTextField();
+
+        FoodFile file = new FoodFile();
+
+        JButton addButton = new JButton("Add");
+        JButton doneButton = new JButton("Finish");
+
+        addButton.addActionListener(e -> {
+            file.writeFoodItem(
+                    nameField.getText(),
+                    Integer.parseInt(carbField.getText()),
+                            Integer.parseInt(proteinField.getText()),
+                                    Integer.parseInt(fatField.getText())
+             );
+            }
+        );
+
+        doneButton.addActionListener(e -> {
+            goalView(surplus, dailyCal);
+        });
+
+        frame.add(prompt);
+        frame.add(nameLabel);
+        frame.add(nameField);
+        frame.add(carbsLabel);
+        frame.add(carbField);
+        frame.add(proteinLabel);
+        frame.add(proteinField);
+        frame.add(fatLabel);
+        frame.add(fatField);
+        frame.add(addButton);
+        frame.add(doneButton);
+        frame.revalidate();
+        frame.repaint();
+
+
+    }
+    public void goalView(boolean surplus, int dailyCal){
+        clearFrame();
+        ArrayList<String> list = new ArrayList<>();
+        FoodFile file = new FoodFile();
+        FoodInfo info = new FoodInfo();
+        list = file.readFoodItems();
+        int totalCal = info.getTotalCalories(list);
+
+        JLabel calLabel = new JLabel("Your estimated daily caloric intake is: " + dailyCal);
+
+
+        if (surplus){
+            if (totalCal > dailyCal){
+                JLabel goalLabel = new JLabel("Congratulations! You hit your calorie surplus!");
+            }
+            else {
+                JLabel goalLabel = new JLabel("Unfortunately, you failed to meet your calorie surplus.");
+            }
+        }
+        else {
+            if (totalCal < dailyCal){
+                JLabel goalLabel = new JLabel("Congratulations! You hit your calorie deficit!");
+            }
+            else {
+                JLabel goalLabel = new JLabel("Unfortunately, you failed to meet your calorie deficit.");
+            }
+        }
     }
 }
 

@@ -6,6 +6,12 @@ public class FoodInfo {
     private int height; //inches //testing
     private String sex; //testing
 
+    public FoodInfo(){
+        age = 0;
+        weight = 0;
+        height = 0;
+    }
+
     public FoodInfo(int age, int weight, int height, String sex) {
         this.age = age;
         this.weight = weight;
