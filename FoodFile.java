@@ -2,9 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class FoodFile {
-    private String filePath;
 
-    //Constructs a FoodFile tied to a specific file path
+    //Constructs a FoodFile
     public FoodFile() {}
 
     //Writing to the file
@@ -27,8 +26,8 @@ public class FoodFile {
         }
     }
     //Reading from the file
-    public List<String> readFoodItems() throws FileNotFoundException {
-        List<String> items = new ArrayList<>();
+    public ArrayList<String> readFoodItems() throws FileNotFoundException {
+        ArrayList<String> items = new ArrayList<>();
         Scanner fileIn = new Scanner(new File("foodLog.txt"));
         while (fileIn.hasNext()){
             items.add(fileIn.next());

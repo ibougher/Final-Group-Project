@@ -97,7 +97,11 @@ class BioButton implements ActionListener {
         );
 
         doneButton.addActionListener(e -> {
-            goalView(surplus, dailyCal);
+            try {
+                goalView(surplus, dailyCal);
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         frame.add(prompt);
@@ -116,7 +120,7 @@ class BioButton implements ActionListener {
 
 
     }
-    public void goalView(boolean surplus, int dailyCal){
+    public void goalView(boolean surplus, int dailyCal) throws FileNotFoundException {
         clearFrame();
         ArrayList<String> list = new ArrayList<>();
         FoodFile file = new FoodFile();
