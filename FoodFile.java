@@ -6,6 +6,15 @@ public class FoodFile {
     //Constructs a FoodFile
     public FoodFile() {}
 
+    public void clearFile() {
+        //clears the file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("foodLog.txt"))) {
+            writer.write("");
+        } catch (IOException e) {
+            System.err.println("Error clearing file: " + e.getMessage());
+        }
+    }
+
     //Writing to the file
     public void writeFoodItem(String name, String carbs, String protein, String fat) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("foodLog.txt", true))) {
