@@ -1,11 +1,16 @@
+import java.util.ArrayList;
+
 public class FoodInfo {
     private int age;
-    private int weight = 0; //lbs //testing
-    private int height = 0; //inches //testing
-    private String sex = "female"; //testing
+    private int weight; //lbs //testing
+    private int height; //inches //testing
+    private String sex; //testing
 
     public FoodInfo(int age, int weight, int height, String sex) {
         this.age = age;
+        this.weight = weight;
+        this.height = height;
+        this.sex = sex;
     }
     public int getRecommendedCalories(){
        if (sex.equalsIgnoreCase("male")){
@@ -26,5 +31,18 @@ public class FoodInfo {
         return (int) (getRecommendedCalories() * 0.25/9);
     }//end
 
+    public int getTotalCalories(ArrayList<String> items){
+        int total = 0;
+
+        for (int i =0; i < items.size(); i += 5){
+            int carbs = Integer.parseInt(items.get(i + 1));
+            int protein = Integer.parseInt(items.get(i + 2));
+            int fat = Integer.parseInt(items.get(i + 3));
+
+            total += (carbs * 4) + (protein * 4) + (fat * 9);
+
+        }
+        return total;
+    }//end
 
 }// end class
