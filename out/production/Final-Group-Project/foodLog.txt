@@ -1,8 +1,8 @@
-brger
-2
-2
-2
-fggd
+Burger
+20
+20
+20
+Fries
 20
 20
 20
