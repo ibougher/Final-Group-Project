@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * FoodInfo takes care of all calculations needed for the project
+ */
 public class FoodInfo {
     private int age;
     private int weight; //lbs //testing
@@ -12,12 +15,24 @@ public class FoodInfo {
         height = 0;
     }
 
+    /**
+     * Constructor takes in biometric info and stores it
+     * @param age
+     * @param weight
+     * @param height
+     * @param sex
+     */
     public FoodInfo(int age, int weight, int height, String sex) {
         this.age = age;
         this.weight = weight;
         this.height = height;
         this.sex = sex;
     }
+
+    /**
+     * Uses the biometric info to find the estimated daily calorie requirements of the user
+     * @return dailyCal
+     */
     public int getRecommendedCalories(){
        if (sex.equalsIgnoreCase("male")){
            return (int)((10 * (weight * 0.453592)) + (6.25 * (height * 2.54)) - (5 * age) +5);
@@ -37,6 +52,12 @@ public class FoodInfo {
         return (int) (getRecommendedCalories() * 0.25/9);
     }//end
 
+    /**
+     * Calculates the amount of calories each food item is worth using its grams of
+     * macronutrients
+     * @param items
+     * @return total
+     */
     public int getTotalCalories(ArrayList<String> items){
         int total = 0;
 

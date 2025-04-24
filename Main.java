@@ -180,6 +180,7 @@ class BioButton implements ActionListener {
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
+        new FoodFile().clearFile();
         JFrame frame = new JFrame("Calorie Tracker");
         int dailyCal = 0;
         boolean surplus;
