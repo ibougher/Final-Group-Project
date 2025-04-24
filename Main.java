@@ -5,14 +5,25 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class BioButton implements ActionListener {
+/**
+ * This is where all the gui elements are added, removed, and calculates
+ */
+class ButtonListener implements ActionListener {
     private JFrame frame;
     private JTextField ageField;
     private JTextField weightField;
     private JTextField heightField;
     private JTextField sexField;
 
-    public BioButton (JFrame frame, JTextField ageField, JTextField weightField,
+    /**
+     * Constructor that takes in and stores the biometric info of the user
+     * @param frame
+     * @param ageField
+     * @param weightField
+     * @param heightField
+     * @param sexField
+     */
+    public ButtonListener (JFrame frame, JTextField ageField, JTextField weightField,
                       JTextField heightField, JTextField sexField) {
         this.frame = frame;
         this.ageField = ageField;
@@ -21,12 +32,20 @@ class BioButton implements ActionListener {
         this.sexField = sexField;
     }
 
+    /**
+     * Clears the frame
+     */
     public void clearFrame() {
         frame.getContentPane().removeAll();
         frame.repaint();
     }
 
-
+    /**
+     * When the biometrics are entered, this method calls getRecommendedCalories
+     * to calculate estimated daily caloric intake. It also clears the GUI and moves on
+     * to asking about surplus.
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -60,6 +79,13 @@ class BioButton implements ActionListener {
         frame.revalidate();
         frame.repaint();
     }
+
+    /**
+     * Displays information and areas for the user to enter all the food they ate for the day,
+     * then moving on to the goal screen
+     * @param surplus
+     * @param dailyCal
+     */
     public void foodEntry(boolean surplus, int dailyCal) {
         String name;
         int carbs;
@@ -124,6 +150,14 @@ class BioButton implements ActionListener {
 
 
     }
+
+    /**
+     * Presents the users estimated daily caloric intake, how many calories the user actually ate,
+     * if the user met their surplus or deficit goal, and a list of everything the user ate.
+     * @param surplus
+     * @param dailyCal
+     * @throws FileNotFoundException
+     */
     public void goalView(boolean surplus, int dailyCal) throws FileNotFoundException {
         clearFrame();
         ArrayList<String> list = new ArrayList<>();
@@ -178,6 +212,9 @@ class BioButton implements ActionListener {
     }
 }
 
+/**
+ * Initializes the gui and runs the code
+ */
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         new FoodFile().clearFile();
@@ -217,7 +254,7 @@ public class Main {
 
 
             JButton bioButton = new JButton("Calculate");
-            bioButton.addActionListener(new BioButton(frame, textField, textField2, textField3,
+            bioButton.addActionListener(new ButtonListener(frame, textField, textField2, textField3,
                     textField4));
             frame.getContentPane().add(bioButton);
 
